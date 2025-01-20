@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hotel_management/components/roomtiles.dart';
+import 'package:hotel_management/models/activities.dart';
 import 'package:hotel_management/models/rooms.dart';
 import 'package:hotel_management/models/services.dart';
 import 'package:hotel_management/themes/colors.dart';
@@ -37,6 +38,20 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
     Services(icon: Icon(Icons.pool), name: 'Pool'),
     Services(icon: Icon(Icons.wifi), name: 'Wifi'),
     Services(icon: Icon(Icons.ac_unit), name: 'AC'),
+  ];
+  List activities = [
+    Activities(
+        name: 'Explore More',
+        description: 'Visit our Website',
+        icon: Icon(Icons.web)),
+    Activities(
+        name: 'Visit us',
+        description: 'Visit our hotels',
+        icon: Icon(Icons.location_city)),
+    Activities(
+        name: 'Contact us',
+        description: 'Call/ email us',
+        icon: Icon(Icons.contact_mail)),
   ];
   @override
   Widget build(BuildContext context) {
@@ -184,17 +199,17 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
                     elevation: 4,
                     child: ListTile(
                       leading: Icon(
-                        Icons.spa,
+                        activities[index].icon.icon,
                         size: 40,
-                        color: Colors.greenAccent,
+                        color: Colors.blueAccent,
                       ),
                       title: Text(
-                        "Additional Service ${index + 1}",
+                        activities[index].name,
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       subtitle: Text(
-                        "Description of service ${index + 1}",
+                        activities[index].description,
                         style: TextStyle(fontSize: 14),
                       ),
                       trailing: Icon(
