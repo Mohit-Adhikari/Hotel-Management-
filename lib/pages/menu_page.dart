@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hotel_management/components/button.dart';
 import 'package:hotel_management/components/hotel_tile.dart';
 import 'package:hotel_management/models/hotels.dart';
+import 'package:hotel_management/pages/hotel_details_page.dart';
 import 'package:hotel_management/themes/colors.dart';
 
 class MenuPage extends StatefulWidget {
@@ -14,6 +15,13 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
+  void navigateToHotelDetails(int index) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => HotelDetailsPage(hotel: stays[index])));
+  }
+
   List stays = [
     Hotels(
         name: 'Soaltee',
@@ -111,6 +119,7 @@ class _MenuPageState extends State<MenuPage> {
             scrollDirection: Axis.horizontal,
             itemCount: stays.length,
             itemBuilder: (context, index) => HotelTile(
+              onTap: () => navigateToHotelDetails(index),
               hotels: stays[index],
             ),
           )),

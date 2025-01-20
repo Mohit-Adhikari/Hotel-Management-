@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false, home: IntroPages(), routes: {
           '/intropage':(context)=> IntroPages(),
           '/menupage':(context) => MenuPage(),
+          
         });
   }
 }
