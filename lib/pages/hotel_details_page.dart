@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hotel_management/components/roomtiles.dart';
 import 'package:hotel_management/models/rooms.dart';
+import 'package:hotel_management/models/services.dart';
+import 'package:hotel_management/themes/colors.dart';
 import '../models/hotels.dart';
 
 class HotelDetailsPage extends StatefulWidget {
@@ -29,6 +31,12 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
         price: 'Rs 3000',
         imagePath: 'lib/images/balcony.png',
         rating: '3.9'),
+  ];
+
+  List service = [
+    Services(icon: Icon(Icons.pool), name: 'Pool'),
+    Services(icon: Icon(Icons.wifi), name: 'Wifi'),
+    Services(icon: Icon(Icons.ac_unit), name: 'AC'),
   ];
   @override
   Widget build(BuildContext context) {
@@ -110,7 +118,8 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
               height: 150,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 3,
+                itemCount:
+                    service.length, // Use service.length for dynamic list size
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -118,6 +127,7 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
+                      color: primaryColor,
                       elevation: 4,
                       child: Container(
                         width: 150,
@@ -126,16 +136,21 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
-                              Icons.pool,
-                              size: 40,
-                              color: Colors.blueAccent,
+                              service[index]
+                                  .icon
+                                  .icon, // Access icon data from the Icon widget in service
+                              size: 40, // Increased size
+                              color:
+                                  Colors.white, // Changed color to blueAccent
                             ),
                             SizedBox(height: 10),
                             Text(
-                              "Service ${index + 1}",
+                              service[index].name, // Use the service name
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
                             ),
                           ],
                         ),
