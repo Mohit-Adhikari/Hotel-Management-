@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hotel_management/components/button.dart';
 import 'package:hotel_management/components/hotel_tile.dart';
@@ -17,30 +16,39 @@ class MenuPage extends StatefulWidget {
 class _MenuPageState extends State<MenuPage> {
   void navigateToHotelDetails(int index) {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => HotelDetailsPage(hotel: stays[index])));
+      context,
+      MaterialPageRoute(
+        builder: (context) => HotelDetailsPage(hotel: stays[index]),
+      ),
+    );
   }
 
   List stays = [
     Hotels(
-        name: 'Soaltee',
-        location: 'Bhaktapur',
-        imagePath: 'lib/images/sunbed.png',
-        rating: '3.9'),
+      name: 'Soaltee',
+      location: 'Bhaktapur',
+      imagePath: 'lib/images/sunbed.png',
+      rating: '3.9',
+    ),
     Hotels(
-        name: 'Everest',
-        location: 'Naxal',
-        imagePath: 'lib/images/home.png',
-        rating: '4.1'),
+      name: 'Everest',
+      location: 'Naxal',
+      imagePath: 'lib/images/home.png',
+      rating: '4.1',
+    ),
     Hotels(
-        name: 'Mariot',
-        location: 'Baneshwor',
-        imagePath: 'lib/images/hotel.png',
-        rating: '3.9'),
+      name: 'Mariot',
+      location: 'Baneshwor',
+      imagePath: 'lib/images/hotel.png',
+      rating: '3.9',
+    ),
   ];
+
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
@@ -49,119 +57,115 @@ class _MenuPageState extends State<MenuPage> {
         leading: Icon(Icons.menu, color: Colors.grey[900]),
         title: Text('Stays', style: TextStyle(color: Colors.grey[900])),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-                color: primaryColor, borderRadius: BorderRadius.circular(20)),
-            padding: const EdgeInsets.all(25),
-            margin: EdgeInsets.symmetric(
-              horizontal: 25,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Promo Section
+              Container(
+                decoration: BoxDecoration(
+                  color: primaryColor,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                padding: EdgeInsets.all(screenWidth * 0.05),
+                child: Row(
                   children: [
-                    Text('Get 32% Promo.',
-                        style: GoogleFonts.dmSerifDisplay(
-                            fontSize: 20, color: Colors.white)),
-                    const SizedBox(height: 20),
-                    MyButton(text: 'Reedem Now', onTap: () {}),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Get 32% Promo.',
+                            style: GoogleFonts.dmSerifDisplay(
+                              fontSize: screenWidth * 0.05,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(height: screenHeight * 0.02),
+                          MyButton(text: 'Redeem Now', onTap: () {}),
+                        ],
+                      ),
+                    ),
+                    Image.asset(
+                      'lib/images/bathrobe.png',
+                      height: screenHeight * 0.15,
+                    ),
                   ],
                 ),
-                Image.asset(
-                  'lib/images/bathrobe.png',
-                  height: 100,
-                )
-              ],
-            ),
-          ),
-          const SizedBox(height: 25),
-          //search bar
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                    borderRadius: BorderRadius.circular(20)),
-                focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                    borderRadius: BorderRadius.circular(20)),
-                enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                    borderRadius: BorderRadius.circular(20)),
-                hintText: 'Search for stays',
               ),
-            ),
-          ),
-          const SizedBox(height: 25),
-          //list of stays
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0),
-            child: Text(
-              'Popular Stays',
-              style: TextStyle(
+              SizedBox(height: screenHeight * 0.03),
+              // Search Bar
+              TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  hintText: 'Search for resturants',
+                ),
+              ),
+              SizedBox(height: screenHeight * 0.03),
+              // Popular Stays Section
+              Text(
+                'Popular Resturants',
+                style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.grey[800],
-                  fontSize: 18),
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Expanded(
-              child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: stays.length,
-            itemBuilder: (context, index) => HotelTile(
-              onTap: () => navigateToHotelDetails(index),
-              hotels: stays[index],
-            ),
-          )),
-          const SizedBox(height: 25),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.grey[100],
-              borderRadius: BorderRadius.circular(20),
-            ),
-            margin: EdgeInsets.only(left: 25, right: 25, bottom: 25),
-            padding: EdgeInsets.all(20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
+                  fontSize: screenWidth * 0.045,
+                ),
+              ),
+              SizedBox(height: screenHeight * 0.02),
+              SizedBox(
+                height: screenHeight * 0.3,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: stays.length,
+                  itemBuilder: (context, index) => Padding(
+                    padding: EdgeInsets.only(right: screenWidth * 0.04),
+                    child: HotelTile(
+                      onTap: () => navigateToHotelDetails(index),
+                      hotels: stays[index],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: screenHeight * 0.03),
+              // Footer Card
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[100],
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                padding: EdgeInsets.all(screenWidth * 0.04),
+                child: Row(
                   children: [
-                    Image.asset('lib/images/london-bridge.png', height: 60),
-                    const SizedBox(width: 20),
+                    Image.asset('lib/images/london-bridge.png',
+                        height: screenHeight * 0.08),
+                    SizedBox(width: screenWidth * 0.04),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'London Bridge',
-                          style: GoogleFonts.dmSerifDisplay(fontSize: 18),
+                          style: GoogleFonts.dmSerifDisplay(
+                            fontSize: screenWidth * 0.045,
+                          ),
                         ),
                         Text(
                           'United Kingdom',
                           style: TextStyle(color: Colors.grey[700]),
-                        )
+                        ),
                       ],
                     ),
+                    Spacer(),
+                    Icon(Icons.favorite_outline, color: Colors.grey, size: 28),
                   ],
                 ),
-                const Icon(
-                  Icons.favorite_outline,
-                  color: Colors.grey,
-                  size: 28,
-                ),
-              ],
-            ),
-          )
-        ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

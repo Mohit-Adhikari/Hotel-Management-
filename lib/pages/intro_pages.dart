@@ -7,48 +7,68 @@ class IntroPages extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Fetch screen dimensions for responsive scaling
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 138, 60, 55),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(25.0),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const SizedBox(height: 25),
-                  Text("HOTEL MAN",
-                      style: GoogleFonts.dmSerifDisplay(
-                        fontSize: 28,
-                        color: Colors.white,
-                      )),
-                  const SizedBox(height: 25),
-                  Padding(
-                    padding: const EdgeInsets.all(25.0),
-                    child: Image.asset('lib/images/resort.png'),
+      backgroundColor: const Color.fromARGB(255, 138, 60, 55),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: screenHeight * 0.03),
+              Text(
+                "Dine Now",
+                style: GoogleFonts.dmSerifDisplay(
+                  fontSize: screenWidth *
+                      0.08, // Adjust font size based on screen width
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(height: screenHeight * 0.03),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: Image.asset(
+                    'lib/images/food.png',
+                    width: screenWidth * 0.7, // Adjust image width
+                    height: screenHeight * 0.3, // Adjust image height
                   ),
-                  const SizedBox(height: 25),
-                  Text("THE BEST HOTEL EXPERIENCE",
-                      style: GoogleFonts.dmSerifDisplay(
-                        fontSize: 44,
-                        color: Colors.white,
-                      )),
-                  const SizedBox(height: 25),
-                  Text(
-                      "Book your stay with us and experience the luxury, whether it's a business trip or a vacation, we have the best deals for you.",
-                      style: TextStyle(
-                        height: 2,
-                        color: Colors.grey[200],
-                      )),
-                  const SizedBox(height: 25),
-                  MyButton(
-                    text: 'Get Started',
-                    onTap: () {
-                      Navigator.pushNamed(context, '/menupage');
-                    },
-                  ),
-                ]),
+                ),
+              ),
+              SizedBox(height: screenHeight * 0.03),
+              Text(
+                "THE BEST DINNING EXPERIENCE",
+                style: GoogleFonts.dmSerifDisplay(
+                  fontSize: screenWidth * 0.1, // Adjust font size
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(height: screenHeight * 0.02),
+              Text(
+                "Reserve your table with us and indulge in a dining experience like no other. Whether it's a casual meal or a special occasion, we have the perfect setting and the best culinary delights waiting for you.",
+                style: TextStyle(
+                  fontSize: screenWidth * 0.04, // Adjust font size
+                  height: 1.5,
+                  color: Colors.grey[200],
+                ),
+              ),
+              SizedBox(height: screenHeight * 0.04),
+              Center(
+                child: MyButton(
+                  text: 'Get Started',
+                  onTap: () {
+                    Navigator.pushNamed(context, '/menupage');
+                  },
+                ),
+              ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

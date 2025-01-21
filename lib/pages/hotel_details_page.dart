@@ -53,8 +53,12 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
         description: 'Call/ email us',
         icon: Icon(Icons.contact_mail)),
   ];
+
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
@@ -63,7 +67,10 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
         foregroundColor: Colors.grey[900],
         title: Text(
           widget.hotel.name,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: screenWidth * 0.05,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -80,38 +87,46 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
                   child: Image.asset(
                     widget.hotel.imagePath,
                     width: double.infinity,
-                    height: 250,
+                    height: screenHeight * 0.3,
                     fit: BoxFit.cover,
                   ),
                 ),
                 Positioned(
-                  bottom: 20,
-                  left: 20,
+                  bottom: screenHeight * 0.03,
+                  left: screenWidth * 0.05,
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: screenWidth * 0.02,
+                      vertical: screenHeight * 0.005,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.black.withOpacity(0.6),
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Text(
                       widget.hotel.location,
-                      style: TextStyle(color: Colors.white, fontSize: 16),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: screenWidth * 0.04,
+                      ),
                     ),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            SizedBox(height: screenHeight * 0.03),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text('Available Suites',
-                  style: GoogleFonts.dmSerifDisplay(
-                    fontSize: 30,
-                  )),
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+              child: Text(
+                'Available Suites',
+                style: GoogleFonts.dmSerifDisplay(
+                  fontSize: screenWidth * 0.06,
+                ),
+              ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: screenHeight * 0.02),
             SizedBox(
-              height: 300,
+              height: screenHeight * 0.4,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: suites.length,
@@ -120,24 +135,26 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: screenHeight * 0.03),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text('Available Services',
-                  style: GoogleFonts.dmSerifDisplay(
-                    fontSize: 30,
-                  )),
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+              child: Text(
+                'Available Services',
+                style: GoogleFonts.dmSerifDisplay(
+                  fontSize: screenWidth * 0.06,
+                ),
+              ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: screenHeight * 0.02),
             SizedBox(
-              height: 150,
+              height: screenHeight * 0.2,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount:
-                    service.length, // Use service.length for dynamic list size
+                itemCount: service.length,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
                     child: Card(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
@@ -145,27 +162,25 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
                       color: primaryColor,
                       elevation: 4,
                       child: Container(
-                        width: 150,
-                        padding: const EdgeInsets.all(16),
+                        width: screenWidth * 0.35,
+                        padding: EdgeInsets.all(screenWidth * 0.04),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
-                              service[index]
-                                  .icon
-                                  .icon, // Access icon data from the Icon widget in service
-                              size: 40, // Increased size
-                              color:
-                                  Colors.white, // Changed color to blueAccent
+                              service[index].icon.icon,
+                              size: screenWidth * 0.1,
+                              color: Colors.white,
                             ),
-                            SizedBox(height: 10),
+                            SizedBox(height: screenHeight * 0.01),
                             Text(
-                              service[index].name, // Use the service name
+                              service[index].name,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
+                                fontSize: screenWidth * 0.045,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
                           ],
                         ),
@@ -175,23 +190,27 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
                 },
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: screenHeight * 0.03),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text('Activities',
-                  style: GoogleFonts.dmSerifDisplay(
-                    fontSize: 30,
-                  )),
+              padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+              child: Text(
+                'Activities',
+                style: GoogleFonts.dmSerifDisplay(
+                  fontSize: screenWidth * 0.06,
+                ),
+              ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: screenHeight * 0.02),
             ListView.builder(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: 3,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: activities.length,
               itemBuilder: (context, index) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 8.0),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.05,
+                    vertical: screenHeight * 0.01,
+                  ),
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
@@ -200,25 +219,27 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
                     child: ListTile(
                       leading: Icon(
                         activities[index].icon.icon,
-                        size: 40,
+                        size: screenWidth * 0.1,
                         color: Colors.blueAccent,
                       ),
                       title: Text(
                         activities[index].name,
                         style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
+                          fontSize: screenWidth * 0.045,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       subtitle: Text(
                         activities[index].description,
-                        style: TextStyle(fontSize: 14),
+                        style: TextStyle(fontSize: screenWidth * 0.04),
                       ),
                       trailing: Icon(
                         Icons.arrow_forward_ios,
-                        size: 16,
+                        size: screenWidth * 0.04,
                         color: Colors.grey,
                       ),
                       onTap: () {
-                        // Handle additional service details
+                        // Handle activity details
                       },
                     ),
                   ),
