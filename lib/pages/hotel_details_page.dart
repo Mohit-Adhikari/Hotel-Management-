@@ -18,40 +18,40 @@ class HotelDetailsPage extends StatefulWidget {
 class _HotelDetailsPageState extends State<HotelDetailsPage> {
   List suites = [
     Rooms(
-        name: 'Bunk',
-        price: 'Rs 1000',
-        imagePath: 'lib/images/bunk-bed.png',
-        rating: '3.9'),
+        name: 'Indoor Tables',
+        price: '9am - 10pm',
+        imagePath: 'lib/images/dining-table.png',
+        rating: ''),
     Rooms(
-        name: 'Single',
-        price: 'Rs 2000',
-        imagePath: 'lib/images/bedroom.png',
-        rating: '4.1'),
+        name: 'Outdoor Space',
+        price: '2pm - 10pm',
+        imagePath: 'lib/images/wine.png',
+        rating: ''),
     Rooms(
-        name: 'Balcony',
-        price: 'Rs 3000',
-        imagePath: 'lib/images/balcony.png',
-        rating: '3.9'),
+        name: 'Buffet',
+        price: '7am- 2pm',
+        imagePath: 'lib/images/buffet.png',
+        rating: ''),
   ];
 
   List service = [
-    Services(icon: Icon(Icons.pool), name: 'Pool'),
-    Services(icon: Icon(Icons.wifi), name: 'Wifi'),
-    Services(icon: Icon(Icons.ac_unit), name: 'AC'),
+    Services(icon: Icon(Icons.calendar_month), name: 'Date'),
+    Services(icon: Icon(Icons.lock_clock), name: 'Time'),
+    Services(icon: Icon(Icons.event), name: 'Events'),
   ];
   List activities = [
+    Activities(
+        name: 'View the menu',
+        description: 'Foods & Drinks',
+        icon: Icon(Icons.menu_book)),
     Activities(
         name: 'Explore More',
         description: 'Visit our Website',
         icon: Icon(Icons.web)),
     Activities(
         name: 'Visit us',
-        description: 'Visit our hotels',
-        icon: Icon(Icons.location_city)),
-    Activities(
-        name: 'Contact us',
-        description: 'Call/ email us',
-        icon: Icon(Icons.contact_mail)),
+        description: 'Visit our resturanat',
+        icon: Icon(Icons.restaurant)),
   ];
 
   @override
@@ -118,7 +118,7 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
               child: Text(
-                'Available Suites',
+                'Available Spaces',
                 style: GoogleFonts.dmSerifDisplay(
                   fontSize: screenWidth * 0.06,
                 ),
@@ -139,7 +139,7 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
               child: Text(
-                'Available Services',
+                'Browse Tables By:',
                 style: GoogleFonts.dmSerifDisplay(
                   fontSize: screenWidth * 0.06,
                 ),

@@ -55,7 +55,7 @@ class _MenuPageState extends State<MenuPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: Icon(Icons.menu, color: Colors.grey[900]),
-        title: Text('Stays', style: TextStyle(color: Colors.grey[900])),
+        title: Text('Dine', style: TextStyle(color: Colors.grey[900])),
       ),
       body: SingleChildScrollView(
         child: Padding(

@@ -41,7 +41,7 @@ class RoomTile extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          Icon(Icons.star, color: Colors.yellow[900]),
+                          Icon(Icons.smoke_free, color: Colors.yellow[900]),
                           Text(rooms.rating),
                         ],
                       )
