@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hotel_management/components/bubble_dropdown.dart';
+import 'package:hotel_management/components/button.dart';
 import 'package:hotel_management/components/newmorphic_data_field.dart';
 
 // Import your custom SliderFb3 widget here
@@ -102,6 +103,8 @@ class ComplateProfileForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Form(
       child: Column(
         children: [
@@ -110,6 +113,7 @@ class ComplateProfileForm extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 24),
             child: CustomPopupMenu(menuItems: menu),
           ),
+          Text('Number of People:', style: TextStyle(fontSize: 16)),
           SliderFb3(
             min: 1,
             max: 6,
@@ -117,21 +121,11 @@ class ComplateProfileForm extends StatelessWidget {
             initialValue: sliderValue,
             onChange: onSliderChange,
           ),
+          SizedBox(height: screenHeight * 0.03),
+          Text('Select Time', style: TextStyle(fontSize: 16)),
           CustomTimePicker(),
           const SizedBox(height: 8),
-          ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              elevation: 0,
-              backgroundColor: const Color(0xFFFF7643),
-              foregroundColor: Colors.white,
-              minimumSize: const Size(double.infinity, 48),
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(16)),
-              ),
-            ),
-            child: const Text("Continue"),
-          )
+          MyButton(text: 'Select Table', onTap: () => {})
         ],
       ),
     );

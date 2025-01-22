@@ -47,7 +47,7 @@ class _CustomPopupMenuState extends State<CustomPopupMenu> {
           child: Row(
             children: [
               Text(
-                selectedMenu ?? 'Show Menu',
+                selectedMenu ?? 'Choose space',
                 style: TextStyle(
                     fontSize: 14,
                     color: selectedMenu != null
@@ -57,7 +57,7 @@ class _CustomPopupMenuState extends State<CustomPopupMenu> {
               const Spacer(),
               const Icon(
                 Icons.keyboard_arrow_down,
-                color: Color(0xFF5E5E5E),
+                color: Colors.white,
               )
             ],
           ),

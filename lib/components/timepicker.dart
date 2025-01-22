@@ -144,10 +144,6 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
           ],
         ),
         const SizedBox(height: 16),
-        Text(
-          "${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')} $period",
-          style: const TextStyle(fontSize: 24, color: Colors.grey),
-        ),
       ],
     );
   }
