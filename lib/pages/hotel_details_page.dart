@@ -81,10 +81,8 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.only(
-
                     bottomLeft: Radius.circular(20),
                     bottomRight: Radius.circular(20),
-                  
                   ),
                   child: Image.asset(
                     widget.hotel.imagePath,
@@ -148,48 +146,53 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
               ),
             ),
             SizedBox(height: screenHeight * 0.02),
-            SizedBox(
-              height: screenHeight * 0.2,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: service.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      color: primaryColor,
-                      elevation: 4,
-                      child: Container(
-                        width: screenWidth * 0.35,
-                        padding: EdgeInsets.all(screenWidth * 0.04),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              service[index].icon.icon,
-                              size: screenWidth * 0.1,
-                              color: Colors.white,
-                            ),
-                            SizedBox(height: screenHeight * 0.01),
-                            Text(
-                              service[index].name,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: screenWidth * 0.045,
-                                fontWeight: FontWeight.bold,
+            GestureDetector(
+              onTap: () => {
+                Navigator.pushNamed(context, '/tablebookingpage'),
+              },
+              child: SizedBox(
+                height: screenHeight * 0.2,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: service.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        color: primaryColor,
+                        elevation: 4,
+                        child: Container(
+                          width: screenWidth * 0.35,
+                          padding: EdgeInsets.all(screenWidth * 0.04),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                service[index].icon.icon,
+                                size: screenWidth * 0.1,
                                 color: Colors.white,
                               ),
-                            ),
-                          ],
+                              SizedBox(height: screenHeight * 0.01),
+                              Text(
+                                service[index].name,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: screenWidth * 0.045,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ),
             SizedBox(height: screenHeight * 0.03),
