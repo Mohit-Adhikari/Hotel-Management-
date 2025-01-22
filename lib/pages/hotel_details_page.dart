@@ -81,8 +81,10 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.only(
+
                     bottomLeft: Radius.circular(20),
                     bottomRight: Radius.circular(20),
+                  
                   ),
                   child: Image.asset(
                     widget.hotel.imagePath,
