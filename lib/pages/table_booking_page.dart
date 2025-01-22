@@ -125,7 +125,9 @@ class ComplateProfileForm extends StatelessWidget {
           Text('Select Time', style: TextStyle(fontSize: 16)),
           CustomTimePicker(),
           const SizedBox(height: 8),
-          MyButton(text: 'Select Table', onTap: () => {})
+          MyButton(
+              text: 'Select Table',
+              onTap: () => {Navigator.pushNamed(context, '/tablespage')})
         ],
       ),
     );

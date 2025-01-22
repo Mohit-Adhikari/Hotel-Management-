@@ -93,7 +93,7 @@ class LoginPage extends StatelessWidget {
                   // sign in button
                   MyButton(
                     onTap: () => {
-                      Navigator.pushNamed(context, '/menupage'),
+                      Navigator.pushNamed(context, '/bookingsuccess'),
                     },
                   ),
 
