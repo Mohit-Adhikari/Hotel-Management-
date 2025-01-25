@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_management/pages/booking_sucess.dart';
+import 'package:hotel_management/pages/home_page.dart';
 import 'package:hotel_management/pages/intro_pages.dart';
 import 'package:hotel_management/pages/login_page.dart';
 import 'package:hotel_management/pages/menu_page.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: IntroPages(),
         routes: {
+          '/homepage': (context) => MyHomePage(),
           '/intropage': (context) => IntroPages(),
           '/menupage': (context) => MenuPage(),
           '/loginpage': (context) => LoginPage(),

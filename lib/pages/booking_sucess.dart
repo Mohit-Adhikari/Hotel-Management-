@@ -33,7 +33,7 @@ class UploadSuccessfulScreen extends StatelessWidget {
                 // button: you can pass your custom button,
                 btnText: "View more Resturaunts",
                 press: () {
-                  Navigator.pushNamed(context, '/menupage');
+                  Navigator.pushNamed(context, '/homepage');
                 },
               ),
             ],
