@@ -20,17 +20,20 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
     Rooms(
         name: 'Indoor Tables',
         price: '9am - 10pm',
-        imagePath: 'lib/images/dining-table.png',
+        imagePath:
+            'https://media-cdn.tripadvisor.com/media/photo-s/18/a4/5e/6d/taybat-restaurant-indoor.jpg',
         rating: ''),
     Rooms(
         name: 'Outdoor Space',
         price: '2pm - 10pm',
-        imagePath: 'lib/images/wine.png',
+        imagePath:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_Y0r6Y0IWQOX0KHt7GsBrSWF5VZTx5XTVjw&s',
         rating: ''),
     Rooms(
         name: 'Buffet',
         price: '7am- 2pm',
-        imagePath: 'lib/images/buffet.png',
+        imagePath:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQq2-9ejLTa_UtwKfG6PutsT2XL8XAsbPQZEA&s',
         rating: ''),
   ];
 
