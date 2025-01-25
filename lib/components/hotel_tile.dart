@@ -13,11 +13,16 @@ class HotelTile extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
+    // Define a base color for the monochromatic scheme
+    final Color baseColor = Colors.green;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.grey[100],
+          // Use a lighter shade of the base color for the background
+          color:
+              baseColor.withOpacity(0.1), // Adjust opacity for a lighter effect
           borderRadius: BorderRadius.circular(screenWidth * 0.05),
         ),
         margin: EdgeInsets.only(left: screenWidth * 0.05),

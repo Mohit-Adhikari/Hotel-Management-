@@ -48,7 +48,7 @@ class SeatSelectionWidgetState extends State<SeatSelectionWidget> {
         title: const Text('Seat Selection'),
         backgroundColor: Colors.transparent,
       ),
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.white,
       body: LayoutBuilder(
         builder: (context, constraints) {
           int crossAxisCount = constraints.maxWidth > 600 ? 8 : 4;

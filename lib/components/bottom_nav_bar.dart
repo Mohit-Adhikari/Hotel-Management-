@@ -19,6 +19,7 @@ class _DockingBarState extends State<DockingBar> {
   List<IconData> icons = [
     Icons.home,
     Icons.table_bar,
+    Icons.travel_explore,
     Icons.person,
   ];
 
@@ -31,9 +32,12 @@ class _DockingBarState extends State<DockingBar> {
       clipBehavior: Clip.none,
       width: MediaQuery.sizeOf(context).width * 0.8, // Responsive width
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      decoration: BoxDecoration(color: primaryColor // Original color
-          // Original border radius
-          ),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF4F1DE),
+        borderRadius: BorderRadius.circular(32),
+        // Original color
+        // Original border radius
+      ),
       child: TweenAnimationBuilder(
         key: ValueKey(widget.activeIndex), // Updated: Use widget.activeIndex
         tween: tween,

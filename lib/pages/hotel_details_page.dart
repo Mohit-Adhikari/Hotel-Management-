@@ -59,8 +59,11 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
+    // Define a base yellow color for the monochromatic scheme
+    final Color baseYellow = Colors.green;
+
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -163,7 +166,8 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),
-                        color: primaryColor,
+                        // Use a lighter shade of yellow for the background
+                        color: baseYellow.withOpacity(0.5),
                         elevation: 4,
                         child: Container(
                           width: screenWidth * 0.35,
@@ -174,7 +178,8 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
                               Icon(
                                 service[index].icon.icon,
                                 size: screenWidth * 0.1,
-                                color: Colors.white,
+                                color:
+                                    Colors.grey[900], // Darker yellow for icons
                               ),
                               SizedBox(height: screenHeight * 0.01),
                               Text(
@@ -183,7 +188,8 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
                                 style: TextStyle(
                                   fontSize: screenWidth * 0.045,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.white,
+                                  color: Colors
+                                      .grey[900], // Darker yellow for text
                                 ),
                               ),
                             ],

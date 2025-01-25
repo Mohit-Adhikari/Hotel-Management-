@@ -4,7 +4,6 @@ import 'package:hotel_management/components/button.dart';
 import 'package:hotel_management/components/hotel_tile.dart';
 import 'package:hotel_management/models/hotels.dart';
 import 'package:hotel_management/pages/hotel_details_page.dart';
-import 'package:hotel_management/themes/colors.dart';
 
 class MenuPage extends StatefulWidget {
   const MenuPage({super.key});
@@ -50,12 +49,14 @@ class _MenuPageState extends State<MenuPage> {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.white, // Light Beige
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: Icon(Icons.menu, color: Colors.grey[900]),
-        title: Text('Dine', style: TextStyle(color: Colors.grey[900])),
+        leading:
+            Icon(Icons.menu, color: const Color(0xFF333333)), // Charcoal Gray
+        title: Text('Dine',
+            style: TextStyle(color: const Color(0xFF333333))), // Charcoal Gray
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -66,7 +67,7 @@ class _MenuPageState extends State<MenuPage> {
               // Promo Section
               Container(
                 decoration: BoxDecoration(
-                  color: primaryColor,
+                  color: const Color(0xFF2E3A59), // Soft Navy Blue
                   borderRadius: BorderRadius.circular(20),
                 ),
                 padding: EdgeInsets.all(screenWidth * 0.05),
@@ -111,7 +112,7 @@ class _MenuPageState extends State<MenuPage> {
                 'Popular Resturants',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Colors.grey[800],
+                  color: const Color(0xFF333333), // Charcoal Gray
                   fontSize: screenWidth * 0.045,
                 ),
               ),
@@ -134,7 +135,8 @@ class _MenuPageState extends State<MenuPage> {
               // Footer Card
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.grey[100],
+                  color: const Color(0xFF777777)
+                      .withOpacity(0.1), // Soft Gray with opacity
                   borderRadius: BorderRadius.circular(20),
                 ),
                 padding: EdgeInsets.all(screenWidth * 0.04),
@@ -150,16 +152,19 @@ class _MenuPageState extends State<MenuPage> {
                           'London Bridge',
                           style: GoogleFonts.dmSerifDisplay(
                             fontSize: screenWidth * 0.045,
+                            color: const Color(0xFF333333), // Charcoal Gray
                           ),
                         ),
                         Text(
                           'United Kingdom',
-                          style: TextStyle(color: Colors.grey[700]),
+                          style: TextStyle(
+                              color: const Color(0xFF777777)), // Soft Gray
                         ),
                       ],
                     ),
                     Spacer(),
-                    Icon(Icons.favorite_outline, color: Colors.grey, size: 28),
+                    Icon(Icons.favorite_outline,
+                        color: const Color(0xFF777777), size: 28), // Soft Gray
                   ],
                 ),
               ),

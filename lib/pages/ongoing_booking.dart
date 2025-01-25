@@ -20,7 +20,7 @@ class _OngoingBookingState extends State<OngoingBooking> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.grey[300],
         title: Column(
           children: [
             const Text(
