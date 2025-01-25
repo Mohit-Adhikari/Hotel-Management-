@@ -90,11 +90,25 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
                     bottomLeft: Radius.circular(20),
                     bottomRight: Radius.circular(20),
                   ),
-                  child: Image.asset(
+                  child: Image.network(
                     widget.hotel.imagePath,
                     width: double.infinity,
                     height: screenHeight * 0.3,
                     fit: BoxFit.cover,
+                    loadingBuilder: (BuildContext context, Widget child,
+                        ImageChunkEvent? loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child; // Image is fully loaded
+                      }
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                        ),
+                      );
+                    },
                   ),
                 ),
                 Positioned(

@@ -26,19 +26,20 @@ class _MenuPageState extends State<MenuPage> {
     Hotels(
       name: 'Soaltee',
       location: 'Bhaktapur',
-      imagePath: 'lib/images/sunbed.png',
+      imagePath:
+          'https://q-xx.bstatic.com/xdata/images/hotel/max500/252046750.jpg?k=1c956f6528232f65d2b1b3f948032a3e9f86e9b2e808c122709617c88860b474&o=',
       rating: '3.9',
     ),
     Hotels(
       name: 'Everest',
       location: 'Naxal',
-      imagePath: 'lib/images/home.png',
+      imagePath: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0MOycgRpuxxyenVkeogIzjPuEu55bCHY-BQ&s',
       rating: '4.1',
     ),
     Hotels(
       name: 'Mariot',
       location: 'Baneshwor',
-      imagePath: 'lib/images/hotel.png',
+      imagePath: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy_naAiqB4RTb_YAuJZFUVB-QH5ZVrrQmYfg&s',
       rating: '3.9',
     ),
   ];

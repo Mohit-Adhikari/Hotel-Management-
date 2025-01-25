@@ -31,12 +31,33 @@ class HotelTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            // Hotel Image
-            Image.asset(
-              hotels.imagePath,
-              height: screenHeight * 0.15, // Dynamically set height
-              width: screenWidth * 0.35,
-              fit: BoxFit.cover,
+            // Hotel Image from the internet
+            ClipRRect(
+              borderRadius: BorderRadius.circular(screenWidth * 0.05),
+              child: Image.network(
+                hotels.imagePath, // Assuming hotels.imagePath is now a URL
+                height: screenHeight * 0.16, // Dynamically set height
+                width: screenWidth * 0.5,
+                fit: BoxFit.cover,
+                loadingBuilder: (BuildContext context, Widget child,
+                    ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                              loadingProgress.expectedTotalBytes!
+                          : null,
+                    ),
+                  );
+                },
+                errorBuilder: (BuildContext context, Object exception,
+                    StackTrace? stackTrace) {
+                  return const Icon(Icons.error); // Error icon
+                },
+              ),
             ),
             SizedBox(height: screenHeight * 0.01),
             // Hotel Name
