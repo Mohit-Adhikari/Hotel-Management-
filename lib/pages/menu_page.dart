@@ -33,13 +33,15 @@ class _MenuPageState extends State<MenuPage> {
     Hotels(
       name: 'Everest',
       location: 'Naxal',
-      imagePath: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0MOycgRpuxxyenVkeogIzjPuEu55bCHY-BQ&s',
+      imagePath:
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0MOycgRpuxxyenVkeogIzjPuEu55bCHY-BQ&s',
       rating: '4.1',
     ),
     Hotels(
       name: 'Mariot',
       location: 'Baneshwor',
-      imagePath: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy_naAiqB4RTb_YAuJZFUVB-QH5ZVrrQmYfg&s',
+      imagePath:
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy_naAiqB4RTb_YAuJZFUVB-QH5ZVrrQmYfg&s',
       rating: '3.9',
     ),
   ];
@@ -54,10 +56,32 @@ class _MenuPageState extends State<MenuPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        toolbarHeight:
+            MediaQuery.of(context).size.height * 0.05, // 7% of screen height
         leading:
             Icon(Icons.menu, color: const Color(0xFF333333)), // Charcoal Gray
-        title: Text('Dine',
-            style: TextStyle(color: const Color(0xFF333333))), // Charcoal Gray
+        title: Text(
+          'Dine Now',
+          style: TextStyle(
+            color: const Color(0xFF333333), // Charcoal Gray
+            fontSize: MediaQuery.of(context).size.height *
+                0.025, // 2.5% of screen height
+          ),
+        ),
+        centerTitle: true, // This centers the title
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0), // Add right padding
+            child: IconButton(
+              icon: Icon(Icons.business,
+                  color: const Color(0xFF333333)), // Hotel owner icon
+              onPressed: () {
+                // Add functionality for the hotel owner icon
+                Navigator.pushNamed(context, '/hiddendrawer');
+              },
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(

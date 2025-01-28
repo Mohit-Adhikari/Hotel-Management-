@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_management/components/bottom_nav_bar.dart';
 import 'package:hotel_management/pages/explore.dart';
+import 'package:hotel_management/pages/hiddendrawer.dart';
 import 'package:hotel_management/pages/menu_page.dart';
 import 'package:hotel_management/pages/ongoing_booking.dart';
 import 'package:hotel_management/pages/profile.dart';
