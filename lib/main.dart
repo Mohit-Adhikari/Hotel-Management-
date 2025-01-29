@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hotel_management/pages/Admin/adminHome.dart';
 import 'package:hotel_management/pages/Chefs/orders.dart';
 import 'package:hotel_management/pages/Owner/owner_homepage.dart';
 import 'package:hotel_management/pages/booking_sucess.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: IntroPages(),
         routes: {
+          '/adminhomepage': (context) => AdminHome(),
           '/cheforderpage': (context) => ChefOrders(),
           '/ownerhomepage': (context) => OwnerHomepage(),
           '/hiddendrawer': (context) => HiddenDrawer(),
