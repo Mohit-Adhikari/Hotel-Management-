@@ -6,6 +6,68 @@ class ResturantPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future openDialogName() => showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Change Name'),
+            content: SizedBox(
+              width: 250, // Adjust the width as needed
+              height: 150, // Adjust the height as needed
+              child: Column(
+                mainAxisSize:
+                    MainAxisSize.min, // Makes the column take up minimal space
+                children: [
+                  TextField(
+                    autofocus: true,
+                    decoration: InputDecoration(
+                      hintText: 'Enter name',
+                    ),
+                  ),
+                  SizedBox(
+                      height:
+                          10), // Add some spacing between the TextField and the button
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('Save'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+    Future openDialogLocation() => showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Set Location'),
+            content: SizedBox(
+              width: 250, // Adjust the width as needed
+              height: 150, // Adjust the height as needed
+              child: Column(
+                mainAxisSize:
+                    MainAxisSize.min, // Makes the column take up minimal space
+                children: [
+                  TextField(
+                    autofocus: true,
+                    decoration: InputDecoration(
+                      hintText: 'Enter name',
+                    ),
+                  ),
+                  SizedBox(
+                      height:
+                          10), // Add some spacing between the TextField and the button
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('Save'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -27,7 +89,9 @@ class ResturantPage extends StatelessWidget {
                   svgSrc: restaurantIconSvg,
                   title: "Resturant Information",
                   subTitle: "Change your Resturant information",
-                  press: () {},
+                  press: () {
+                    openDialogName();
+                  },
                 ),
                 ProfileMenuCard(
                   svgSrc: photoFrameSvg,
@@ -36,28 +100,12 @@ class ResturantPage extends StatelessWidget {
                   press: () {},
                 ),
                 ProfileMenuCard(
-                  svgSrc: cardIconSvg,
-                  title: "Payment Methods",
-                  subTitle: "Add your credit & debit cards",
-                  press: () {},
-                ),
-                ProfileMenuCard(
                   svgSrc: markerIconSvg,
                   title: "Locations",
                   subTitle: "Add or remove your delivery locations",
-                  press: () {},
-                ),
-                ProfileMenuCard(
-                  svgSrc: fbIconSvg,
-                  title: "Add Social Account",
-                  subTitle: "Add Facebook, Twitter etc ",
-                  press: () {},
-                ),
-                ProfileMenuCard(
-                  svgSrc: shareIconSvg,
-                  title: "Advertise with us",
-                  subTitle: "Get \$10 free for your first ad",
-                  press: () {},
+                  press: () {
+                    openDialogLocation();
+                  },
                 ),
               ],
             ),
