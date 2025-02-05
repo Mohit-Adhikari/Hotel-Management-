@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "271357156111",
+    "project_id": "ganesh-9b412",
+    "storage_bucket": "ganesh-9b412.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:271357156111:android:4f7cb01070e164b8257c7a",
+        "android_client_info": {
+          "package_name": "com.example.firebase_services"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAM64CYQy82V905Fnihjs3fsKnWZrTSwiU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:271357156111:android:99e3409c4f191d1f257c7a",
+        "android_client_info": {
+          "package_name": "com.example.hotel_management"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAM64CYQy82V905Fnihjs3fsKnWZrTSwiU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

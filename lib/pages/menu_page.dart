@@ -133,13 +133,31 @@ class _MenuPageState extends State<MenuPage> {
               ),
               SizedBox(height: screenHeight * 0.03),
               // Popular Stays Section
-              Text(
-                'Popular Resturants',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xFF333333), // Charcoal Gray
-                  fontSize: screenWidth * 0.045,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Popular Resturants',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xFF333333), // Charcoal Gray
+                      fontSize: screenWidth * 0.045,
+                    ),
+                  ),
+                  GestureDetector(
+                    child: Text(
+                      'Seem more->',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFF333333), // Charcoal Gray
+                        fontSize: screenWidth * 0.040,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/resturanttilepage');
+                    },
+                  ),
+                ],
               ),
               SizedBox(height: screenHeight * 0.02),
               SizedBox(

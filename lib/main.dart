@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hotel_management/pages/Admin/adminHome.dart';
 import 'package:hotel_management/pages/Chefs/orders.dart';
@@ -7,13 +8,16 @@ import 'package:hotel_management/pages/home_page.dart';
 import 'package:hotel_management/pages/intro_pages.dart';
 import 'package:hotel_management/pages/login_page.dart';
 import 'package:hotel_management/pages/menu_page.dart';
+import 'package:hotel_management/pages/resturant_tile.dart';
 import 'package:hotel_management/pages/signIn_page.dart';
 import 'package:hotel_management/pages/sign_up.dart';
 import 'package:hotel_management/pages/table_booking_page.dart';
 import 'package:hotel_management/pages/table_page.dart';
 import 'package:hotel_management/pages/hiddendrawer.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -27,6 +31,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: IntroPages(),
         routes: {
+          '/resturanttilepage': (context) => ResturantTile(),
           '/adminhomepage': (context) => AdminHome(),
           '/cheforderpage': (context) => ChefOrders(),
           '/ownerhomepage': (context) => OwnerHomepage(),
