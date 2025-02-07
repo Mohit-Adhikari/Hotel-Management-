@@ -28,7 +28,8 @@ class SeatSelectionWidgetState extends State<SeatSelectionWidget> {
     DocumentSnapshot documentSnapshot = await _firestore
         .collection('Table')
         .doc(widget.hotel.uid)
-        .collection(widget.table.date).doc('table_status')
+        .collection(widget.table.date)
+        .doc('table_status')
         .get();
 
     if (documentSnapshot.exists) {
@@ -64,6 +65,30 @@ class SeatSelectionWidgetState extends State<SeatSelectionWidget> {
     return seats
         .where((seat) => seat.isSelected)
         .fold(0.0, (sum, seat) => sum + seat.price);
+  }
+
+  Future<void> updateTableStatus() async {
+    Map<String, bool> updatedStatus = {};
+    for (int i = 0; i < seats.length; i++) {
+      updatedStatus['${i + 1}'] = seats[i].isSelected || seats[i].isReserved;
+    }
+
+    await _firestore
+        .collection('Table')
+        
+        .doc(widget.hotel.uid)
+        .collection(widget.table.date)
+        .doc('table_status')
+        .set(updatedStatus, SetOptions(merge: true));
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          '${getSelectedSeatsCount()} seats booked for \$${getTotalPrice().toStringAsFixed(2)}!',
+        ),
+        duration: const Duration(seconds: 3),
+      ),
+    );
   }
 
   @override
@@ -148,14 +173,7 @@ class SeatSelectionWidgetState extends State<SeatSelectionWidget> {
                       ElevatedButton(
                         onPressed: () {
                           if (selectedSeatsCount > 0) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  '$selectedSeatsCount seats booked for \$${totalPrice.toStringAsFixed(2)}!',
-                                ),
-                                duration: const Duration(seconds: 3),
-                              ),
-                            );
+                            updateTableStatus();
                           }
                         },
                         style: ElevatedButton.styleFrom(
@@ -165,16 +183,12 @@ class SeatSelectionWidgetState extends State<SeatSelectionWidget> {
                             horizontal: 40,
                           ),
                         ),
-                        child: GestureDetector(
-                          onTap: () =>
-                              {Navigator.pushNamed(context, '/loginpage')},
-                          child: const Text(
-                            'BOOK NOW',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18),
-                          ),
+                        child: const Text(
+                          'BOOK NOW',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18),
                         ),
                       ),
                     ],
