@@ -22,6 +22,7 @@ class bookingAdd {
         'seats': seat,
       });
       await tables.doc(user).collection('Booking').add({
+        'imageurl': hotel.imagePath,
         'hotel': hotel.name,
         'date': table.date,
         'seats': seat,
