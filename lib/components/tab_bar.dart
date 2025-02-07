@@ -18,7 +18,7 @@ class _SecondaryTabbarState extends State<SecondaryTabbar> {
   // Define the body content for each tab
   final List<Widget> _tabBodies = [
     const ChartPage(), // Widget for Home
-    const ResturantPage(), // Widget for Restaurant
+     ResturantPage(), // Widget for Restaurant
     const TableSetting(), // Widget for Table
   ];
 

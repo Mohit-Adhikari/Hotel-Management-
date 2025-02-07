@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:hotel_management/pages/Admin/adminHome.dart';
 import 'package:hotel_management/pages/Chefs/orders.dart';
 import 'package:hotel_management/pages/Owner/owner_homepage.dart';
+import 'package:hotel_management/pages/Owner/owner_signup.dart';
+
 import 'package:hotel_management/pages/booking_sucess.dart';
 import 'package:hotel_management/pages/home_page.dart';
 import 'package:hotel_management/pages/intro_pages.dart';
@@ -40,9 +42,9 @@ class MyApp extends StatelessWidget {
           '/intropage': (context) => IntroPages(),
           '/menupage': (context) => MenuPage(),
           '/loginpage': (context) => LoginPage(),
-          '/signuppage': (context) => SignUpScreen(),          
-          
+          '/signuppage': (context) => SignUpScreen(),
           '/bookingsuccess': (context) => UploadSuccessfulScreen(),
+          '/ownersignup': (context) => OwnerSignup(),
         });
   }
 }

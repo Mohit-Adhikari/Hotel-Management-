@@ -15,6 +15,28 @@ class _OngoingTileState extends State<OngoingTile> {
 
   @override
   Widget build(BuildContext context) {
+    // Check if Firebase is initialized and user is logged in
+    if (Firebase.apps.isEmpty || user == null) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Ongoing Bookings'),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.error, size: 50, color: Colors.red),
+              const SizedBox(height: 10),
+              Text(
+                user == null ? 'User not logged in' : 'Firebase not initialized',
+                style: TextStyle(fontSize: 18, color: Colors.red),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: Container(
@@ -51,18 +73,20 @@ class _OngoingTileState extends State<OngoingTile> {
                   Icon(Icons.error, size: 50, color: Colors.red),
                   const SizedBox(height: 10),
                   Text(
-                    'Something went wrong',
+                    'Error: ${snapshot.error}',
                     style: TextStyle(fontSize: 18, color: Colors.red),
                   ),
                 ],
               ),
             );
           }
+
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
+
           if (snapshot.data == null || snapshot.data!.docs.isEmpty) {
             return Center(
               child: Column(
@@ -78,82 +102,93 @@ class _OngoingTileState extends State<OngoingTile> {
               ),
             );
           }
+
           final bookings = snapshot.data!.docs;
           return ListView.builder(
             itemCount: bookings.length,
             itemBuilder: (context, index) {
-              final booking = bookings[index];
-              final bookingHotel = booking['hotel'] ?? 'Unknown Booking';
-              final bookingDate = booking['date'] ?? 'Unknown Date';
-              final imageUrl = booking['imageurl'] ?? '';
-              final bookingTable = booking['seats'] ?? 'N/A'; // Table number
+              try {
+                final booking = bookings[index];
+                final bookingHotel = booking['hotel'] ?? 'Unknown Booking';
+                final bookingDate = booking['date'] ?? 'Unknown Date';
+                final imageUrl = booking['imageurl'] ?? '';
+                final bookingTable = booking['seats'] ?? 'N/A'; // Table number
 
-              return Card(
-                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: ListTile(
-                  contentPadding: const EdgeInsets.all(12),
-                  leading: ClipRRect(
+                return Card(
+                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
-                    child: Image.network(
-                      imageUrl,
-                      width: 80,
-                      height: 80,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Icon(
-                          Icons.error_outline,
-                          size: 40,
-                          color: Colors.red,
-                        );
+                  ),
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.all(12),
+                    leading: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.network(
+                        imageUrl,
+                        width: 80,
+                        height: 80,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Icon(
+                            Icons.error_outline,
+                            size: 40,
+                            color: Colors.red,
+                          );
+                        },
+                      ),
+                    ),
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          bookingHotel,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            Icon(Icons.table_chart, size: 16, color: Colors.grey),
+                            const SizedBox(width: 4),
+                            Text(
+                              'Table $bookingTable',
+                              style: const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          bookingDate,
+                          style: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.more_vert, color: Colors.grey),
+                      onPressed: () {
+                        // Add functionality for more options
                       },
                     ),
                   ),
-                  title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        bookingHotel,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Row(
-                        children: [
-                          Icon(Icons.table_chart, size: 16, color: Colors.grey),
-                          const SizedBox(width: 4),
-                          Text(
-                            'Table $bookingTable',
-                            style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        bookingDate,
-                        style: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
+                );
+              } catch (e) {
+                // Handle errors while building individual booking items
+                return ListTile(
+                  title: Text(
+                    'Error loading booking: $e',
+                    style: TextStyle(color: Colors.red),
                   ),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.more_vert, color: Colors.grey),
-                    onPressed: () {
-                      // Add functionality for more options
-                    },
-                  ),
-                ),
-              );
+                );
+              }
             },
           );
         },

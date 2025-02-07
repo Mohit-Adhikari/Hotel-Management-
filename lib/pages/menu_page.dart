@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hotel_management/components/button.dart';
@@ -24,32 +27,29 @@ class _MenuPageState extends State<MenuPage> {
 
   List stays = [
     Hotels(
-      uid: '1',
-      name: 'Soaltee',
-      location: 'Bhaktapur',
-      imagePath:
-          'https://q-xx.bstatic.com/xdata/images/hotel/max500/252046750.jpg?k=1c956f6528232f65d2b1b3f948032a3e9f86e9b2e808c122709617c88860b474&o=',
-      rating: '3.9',
-      price: 10
-    ),
+        uid: '1',
+        name: 'Soaltee',
+        location: 'Bhaktapur',
+        imagePath:
+            'https://q-xx.bstatic.com/xdata/images/hotel/max500/252046750.jpg?k=1c956f6528232f65d2b1b3f948032a3e9f86e9b2e808c122709617c88860b474&o=',
+        rating: '3.9',
+        price: 10),
     Hotels(
-      uid: '1',
-      name: 'Everest',
-      location: 'Naxal',
-      imagePath:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0MOycgRpuxxyenVkeogIzjPuEu55bCHY-BQ&s',
-      rating: '4.1',
-      price: 20
-    ),
+        uid: '1',
+        name: 'Everest',
+        location: 'Naxal',
+        imagePath:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0MOycgRpuxxyenVkeogIzjPuEu55bCHY-BQ&s',
+        rating: '4.1',
+        price: 20),
     Hotels(
-      uid: '1',
-      name: 'Mariot',
-      location: 'Baneshwor',
-      imagePath:
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy_naAiqB4RTb_YAuJZFUVB-QH5ZVrrQmYfg&s',
-      rating: '3.9',
-      price: 30
-    ),
+        uid: '1',
+        name: 'Mariot',
+        location: 'Baneshwor',
+        imagePath:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy_naAiqB4RTb_YAuJZFUVB-QH5ZVrrQmYfg&s',
+        rating: '3.9',
+        price: 30),
   ];
 
   @override
@@ -64,8 +64,25 @@ class _MenuPageState extends State<MenuPage> {
         elevation: 0,
         toolbarHeight:
             MediaQuery.of(context).size.height * 0.05, // 7% of screen height
-        leading:
-            Icon(Icons.menu, color: const Color(0xFF333333)), // Charcoal Gray
+        leading: GestureDetector(
+            onTap: () async {
+              try {
+                final User? user = FirebaseAuth.instance.currentUser;
+                if (user != null) {
+                  await FirebaseAuth.instance.signOut();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Sucessfully Logged Out!')),
+                  );
+                }
+              } catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                      content: Text('An error occurred. Please try again:$e')),
+                );
+              }
+            },
+            child: Icon(Icons.logout,
+                color: const Color(0xFF333333))), // Charcoal Gray
         title: Text(
           'Dine Now',
           style: TextStyle(

@@ -1,8 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hotel_management/services/crud.dart';
 
 class ResturantPage extends StatelessWidget {
-  const ResturantPage({super.key});
+  ResturantPage({super.key});
+  final User? currentUser = FirebaseAuth.instance.currentUser;
+  final FirestoreService firestoreService = FirestoreService();
+  final TextEditingController restaurantController = TextEditingController();
+  final TextEditingController locationController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +24,7 @@ class ResturantPage extends StatelessWidget {
                     MainAxisSize.min, // Makes the column take up minimal space
                 children: [
                   TextField(
+                    controller: restaurantController,
                     autofocus: true,
                     decoration: InputDecoration(
                       hintText: 'Enter name',
@@ -28,6 +35,11 @@ class ResturantPage extends StatelessWidget {
                           10), // Add some spacing between the TextField and the button
                   ElevatedButton(
                     onPressed: () {
+                      firestoreService.addRestaurant(
+                          context,
+                          currentUser!.uid.toString(),
+                          restaurantController.text);
+                      restaurantController.clear();
                       Navigator.of(context).pop();
                     },
                     child: Text('Save'),
@@ -49,6 +61,7 @@ class ResturantPage extends StatelessWidget {
                     MainAxisSize.min, // Makes the column take up minimal space
                 children: [
                   TextField(
+                    controller: locationController,
                     autofocus: true,
                     decoration: InputDecoration(
                       hintText: 'Enter name',
@@ -59,6 +72,9 @@ class ResturantPage extends StatelessWidget {
                           10), // Add some spacing between the TextField and the button
                   ElevatedButton(
                     onPressed: () {
+                      firestoreService.addLocation(context,
+                          currentUser!.uid.toString(), locationController.text);
+                      locationController.clear();
                       Navigator.of(context).pop();
                     },
                     child: Text('Save'),
