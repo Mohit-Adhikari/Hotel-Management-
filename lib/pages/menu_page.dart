@@ -24,6 +24,7 @@ class _MenuPageState extends State<MenuPage> {
 
   List stays = [
     Hotels(
+      uid: '1',
       name: 'Soaltee',
       location: 'Bhaktapur',
       imagePath:
@@ -31,6 +32,7 @@ class _MenuPageState extends State<MenuPage> {
       rating: '3.9',
     ),
     Hotels(
+      uid: '1',
       name: 'Everest',
       location: 'Naxal',
       imagePath:
@@ -38,6 +40,7 @@ class _MenuPageState extends State<MenuPage> {
       rating: '4.1',
     ),
     Hotels(
+      uid: '1',
       name: 'Mariot',
       location: 'Baneshwor',
       imagePath:

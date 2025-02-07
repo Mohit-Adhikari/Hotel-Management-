@@ -7,10 +7,11 @@ import 'package:hotel_management/components/newmorphic_data_field.dart';
 
 // Import your custom SliderFb3 widget here
 import 'package:hotel_management/components/slider.dart';
-import 'package:hotel_management/components/timepicker.dart';
+import 'package:hotel_management/models/hotels.dart';
 
 class TableBookingPage extends StatefulWidget {
-  const TableBookingPage({super.key});
+  final Hotels hotel;
+  const TableBookingPage({super.key, required this.hotel});
 
   @override
   State<TableBookingPage> createState() => _TableBookingPageState();
@@ -19,6 +20,7 @@ class TableBookingPage extends StatefulWidget {
 class _TableBookingPageState extends State<TableBookingPage> {
   double _sliderValue = 1.0; // Initial slider value
   List<String> menuItems = ['Indoor', 'Outdoor', 'Buffet'];
+  String? selectedTimeOption; // Selected option for the dropdown menu
 
   @override
   Widget build(BuildContext context) {
@@ -57,14 +59,72 @@ class _TableBookingPageState extends State<TableBookingPage> {
                     style: TextStyle(color: Color(0xFF757575)),
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-                  ComplateProfileForm(
-                    menu: menuItems,
-                    sliderValue: _sliderValue,
-                    onSliderChange: (value) {
-                      setState(() {
-                        _sliderValue = value;
-                      });
-                    },
+                  // Form content moved here
+                  Form(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 24),
+                          child: CustomPopupMenu(menuItems: menuItems),
+                        ),
+                        Text('Number of People:',
+                            style: TextStyle(fontSize: 16)),
+                        SliderFb3(
+                          min: 1,
+                          max: 6,
+                          divisions: 5,
+                          initialValue: _sliderValue,
+                          onChange: (value) {
+                            setState(() {
+                              _sliderValue = value;
+                            });
+                          },
+                        ),
+                        SizedBox(height: screenHeight * 0.03),
+                        Text('Select Time', style: TextStyle(fontSize: 16)),
+                        Container(
+                          width: double
+                              .infinity, // Make the dropdown take full width
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Color(0xFF757575), // Border color
+                              width: 1.0, // Border width
+                            ),
+                            borderRadius:
+                                BorderRadius.circular(8), // Rounded corners
+                          ),
+                          padding: EdgeInsets.symmetric(
+                              horizontal:
+                                  16), // Add padding inside the container
+                          child: DropdownButton<String>(
+                            value: selectedTimeOption,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedTimeOption = value;
+                              });
+                            },
+                            items: ['today', 'tomorrow', 'day_after']
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                            hint: Text('Select an option'),
+                            isExpanded:
+                                true, // Ensure the dropdown button expands to fill the width
+                            underline:
+                                Container(), // Remove the default underline
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        MyButton(
+                          text: 'Select Table',
+                          onTap: () =>
+                              {Navigator.pushNamed(context, '/tablespage')},
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.15),
                   const Text(
@@ -88,50 +148,3 @@ const authOutlineInputBorder = OutlineInputBorder(
   borderSide: BorderSide(color: Color(0xFF757575)),
   borderRadius: BorderRadius.all(Radius.circular(100)),
 );
-
-class ComplateProfileForm extends StatelessWidget {
-  final List<String> menu;
-  final double sliderValue;
-  final ValueChanged<double> onSliderChange;
-
-  const ComplateProfileForm({
-    super.key,
-    required this.menu,
-    required this.sliderValue,
-    required this.onSliderChange,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-    return Form(
-      child: Column(
-        children: [
-          DateField(),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 24),
-            child: CustomPopupMenu(menuItems: menu),
-          ),
-          Text('Number of People:', style: TextStyle(fontSize: 16)),
-          SliderFb3(
-            min: 1,
-            max: 6,
-            divisions: 5,
-            initialValue: sliderValue,
-            onChange: onSliderChange,
-          ),
-          SizedBox(height: screenHeight * 0.03),
-          Text('Select Time', style: TextStyle(fontSize: 16)),
-          CustomTimePicker(),
-          const SizedBox(height: 8),
-          MyButton(
-              text: 'Select Table',
-              onTap: () => {Navigator.pushNamed(context, '/tablespage')})
-        ],
-      ),
-    );
-  }
-}
-
-// Icons

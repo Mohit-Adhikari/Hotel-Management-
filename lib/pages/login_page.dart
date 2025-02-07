@@ -3,17 +3,52 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hotel_management/components/my_button.dart';
 import 'package:hotel_management/components/my_textfield.dart';
 import 'package:hotel_management/components/square_tile.dart';
+import 'package:hotel_management/services/auth.dart';
 import 'package:hotel_management/themes/colors.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   LoginPage({super.key});
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   // text editing controllers
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+
+  final _passwordController = TextEditingController();
 
   // sign user in method
-  void signUserIn() {}
+  void _login() async {
+    String email = _emailController.text;
+    String password = _passwordController.text;
+
+    // Validate email and password
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill in all fields')),
+      );
+      return;
+    }
+
+    // Perform login
+    AuthService authService = AuthService(
+      emailText: email,
+      passwordText: password,
+    );
+
+    try {
+      authService.loginUser(context);
+      Navigator.pushNamed(context, '/menupage');
+      // Navigate to home screen after successful login
+    } catch (e) {
+      // Handle any unexpected errors
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Login failed: ${e.toString()}')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +92,8 @@ class LoginPage extends StatelessWidget {
 
                   // username textfield
                   MyTextField(
-                    controller: usernameController,
-                    hintText: 'Username',
+                    controller: _emailController,
+                    hintText: 'email',
                     obscureText: false,
                   ),
 
@@ -66,7 +101,7 @@ class LoginPage extends StatelessWidget {
 
                   // password textfield
                   MyTextField(
-                    controller: passwordController,
+                    controller: _passwordController,
                     hintText: 'Password',
                     obscureText: true,
                   ),
@@ -93,7 +128,7 @@ class LoginPage extends StatelessWidget {
                   // sign in button
                   MyButton(
                     onTap: () => {
-                      Navigator.pushNamed(context, '/bookingsuccess'),
+                      _login(),
                     },
                   ),
 

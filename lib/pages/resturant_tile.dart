@@ -46,6 +46,7 @@ class _ResturantTileState extends State<ResturantTile> {
                   'https://fwhponoldzlbxzkxpowv.supabase.co/storage/v1/object/public/image/uploads/' +
                       (uid); // Assuming you have an image URL field
               final Hotels __hotel = Hotels(
+                  uid: uid,
                   name: restaurantName,
                   location: restaurantLocation,
                   imagePath: imageUrl,

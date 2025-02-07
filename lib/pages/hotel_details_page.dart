@@ -4,6 +4,8 @@ import 'package:hotel_management/components/roomtiles.dart';
 import 'package:hotel_management/models/activities.dart';
 import 'package:hotel_management/models/rooms.dart';
 import 'package:hotel_management/models/services.dart';
+import 'package:hotel_management/pages/login_or_not.dart';
+import 'package:hotel_management/pages/table_booking_page.dart';
 import 'package:hotel_management/themes/colors.dart';
 import '../models/hotels.dart';
 
@@ -168,7 +170,13 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
             SizedBox(height: screenHeight * 0.02),
             GestureDetector(
               onTap: () => {
-                Navigator.pushNamed(context, '/tablebookingpage'),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        LoginOrNot(hotel: widget.hotel) // Pass the hotel object
+                  ),
+                )
               },
               child: SizedBox(
                 height: screenHeight * 0.2,
