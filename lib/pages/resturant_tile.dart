@@ -44,13 +44,16 @@ class _ResturantTileState extends State<ResturantTile> {
                   restaurant['location'] ?? 'Unknown Location';
               final imageUrl =
                   'https://fwhponoldzlbxzkxpowv.supabase.co/storage/v1/object/public/image/uploads/' +
-                      (uid); // Assuming you have an image URL field
+                      (uid);
+              final price =
+                  restaurant['price']; // Assuming you have an image URL field
               final Hotels __hotel = Hotels(
                   uid: uid,
                   name: restaurantName,
                   location: restaurantLocation,
                   imagePath: imageUrl,
-                  rating: '4.1');
+                  rating: '4.1',
+                  price: price);
 
               return GestureDetector(
                 onTap: () {

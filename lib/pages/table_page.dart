@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -17,12 +19,17 @@ class SeatSelectionWidget extends StatefulWidget {
 }
 
 class SeatSelectionWidgetState extends State<SeatSelectionWidget> {
-  List<Seat> seats = List.generate(15, (index) => Seat());
+  List<Seat> seats = [];
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
     super.initState();
+    // Initialize seats with the hotel's price
+    seats = List.generate(
+      15,
+      (index) => Seat(price: widget.hotel.price), // Use hotel's price
+    );
     fetchTableStatus();
   }
 
@@ -33,7 +40,6 @@ class SeatSelectionWidgetState extends State<SeatSelectionWidget> {
         .collection(widget.table.date)
         .doc('table_status')
         .get();
-
     if (documentSnapshot.exists) {
       Map<String, dynamic> data =
           documentSnapshot.data() as Map<String, dynamic>;
@@ -74,7 +80,6 @@ class SeatSelectionWidgetState extends State<SeatSelectionWidget> {
     for (int i = 0; i < seats.length; i++) {
       updatedStatus['${i + 1}'] = seats[i].isSelected || seats[i].isReserved;
     }
-
     await _firestore
         .collection('Table')
         .doc(widget.hotel.uid)
@@ -109,7 +114,6 @@ class SeatSelectionWidgetState extends State<SeatSelectionWidget> {
       body: LayoutBuilder(
         builder: (context, constraints) {
           int crossAxisCount = constraints.maxWidth > 600 ? 8 : 4;
-
           return SingleChildScrollView(
             child: Column(
               children: [
@@ -252,14 +256,13 @@ class Seat {
   bool isAvailable;
   bool isSelected;
   bool isReserved;
-  double price;
+  int price;
 
-  Seat({
-    this.isAvailable = true,
-    this.isSelected = false,
-    this.isReserved = false,
-    this.price = 29.99,
-  });
+  Seat(
+      {this.isAvailable = true,
+      this.isSelected = false,
+      this.isReserved = false,
+      required this.price});
 }
 
 class SeatWidget extends StatelessWidget {
