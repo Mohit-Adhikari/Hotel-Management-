@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
           '/menupage': (context) => MenuPage(),
           '/loginpage': (context) => LoginPage(),
           '/signuppage': (context) => SignUpScreen(),          
-          '/tablespage': (context) => SeatSelectionWidget(),
+          
           '/bookingsuccess': (context) => UploadSuccessfulScreen(),
         });
   }

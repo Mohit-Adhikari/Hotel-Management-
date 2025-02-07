@@ -1,16 +1,54 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hotel_management/models/hotels.dart';
+import 'package:hotel_management/models/tables.dart';
 import 'package:hotel_management/themes/colors.dart';
 
 class SeatSelectionWidget extends StatefulWidget {
-  const SeatSelectionWidget({super.key});
+  final Hotels hotel;
+  final Tables table;
+  const SeatSelectionWidget(
+      {super.key, required this.hotel, required this.table});
 
   @override
   SeatSelectionWidgetState createState() => SeatSelectionWidgetState();
 }
 
 class SeatSelectionWidgetState extends State<SeatSelectionWidget> {
-  List<Seat> seats =
-      List.generate(15, (index) => Seat()); // Reduced to 15 tiles
+  List<Seat> seats = List.generate(15, (index) => Seat());
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchTableStatus();
+  }
+
+  Future<void> fetchTableStatus() async {
+    DocumentSnapshot documentSnapshot = await _firestore
+        .collection('Table')
+        .doc(widget.hotel.uid)
+        .collection(widget.table.date).doc('table_status')
+        .get();
+
+    if (documentSnapshot.exists) {
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
+      print(data);
+      updateSeats(data);
+    }
+  }
+
+  void updateSeats(Map<String, dynamic> tableStatus) {
+    setState(() {
+      tableStatus.forEach((key, value) {
+        int index = int.parse(key) - 1;
+        if (index >= 0 && index < seats.length) {
+          seats[index].isReserved = value;
+        }
+      });
+    });
+  }
 
   void toggleSeatSelection(int index) {
     setState(() {
@@ -26,16 +64,6 @@ class SeatSelectionWidgetState extends State<SeatSelectionWidget> {
     return seats
         .where((seat) => seat.isSelected)
         .fold(0.0, (sum, seat) => sum + seat.price);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Example: Mark some seats as reserved
-    seats[5].isReserved = true;
-    seats[10].isReserved = true;
-    seats[12].isReserved = true;
   }
 
   @override

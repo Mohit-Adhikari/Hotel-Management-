@@ -8,9 +8,12 @@ import 'package:hotel_management/components/newmorphic_data_field.dart';
 // Import your custom SliderFb3 widget here
 import 'package:hotel_management/components/slider.dart';
 import 'package:hotel_management/models/hotels.dart';
+import 'package:hotel_management/models/tables.dart';
+import 'package:hotel_management/pages/table_page.dart';
 
 class TableBookingPage extends StatefulWidget {
   final Hotels hotel;
+
   const TableBookingPage({super.key, required this.hotel});
 
   @override
@@ -65,7 +68,6 @@ class _TableBookingPageState extends State<TableBookingPage> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 24),
-                          child: CustomPopupMenu(menuItems: menuItems),
                         ),
                         Text('Number of People:',
                             style: TextStyle(fontSize: 16)),
@@ -81,7 +83,7 @@ class _TableBookingPageState extends State<TableBookingPage> {
                           },
                         ),
                         SizedBox(height: screenHeight * 0.03),
-                        Text('Select Time', style: TextStyle(fontSize: 16)),
+                        Text('Select Date', style: TextStyle(fontSize: 16)),
                         Container(
                           width: double
                               .infinity, // Make the dropdown take full width
@@ -120,8 +122,17 @@ class _TableBookingPageState extends State<TableBookingPage> {
                         const SizedBox(height: 8),
                         MyButton(
                           text: 'Select Table',
-                          onTap: () =>
-                              {Navigator.pushNamed(context, '/tablespage')},
+                          onTap: () {
+                            // Navigate to the SeatSelectionWidget with the selected time and number of people
+                            final Tables table = Tables(
+                                date: selectedTimeOption ?? 'No date selected',
+                                people: _sliderValue.toString());
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SeatSelectionWidget(
+                                        hotel: widget.hotel, table: table)));
+                          },
                         ),
                       ],
                     ),
