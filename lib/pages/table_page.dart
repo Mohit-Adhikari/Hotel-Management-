@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hotel_management/models/hotels.dart';
 import 'package:hotel_management/models/tables.dart';
 import 'package:hotel_management/themes/colors.dart';
+import 'package:hotel_management/services/add_booking.dart';
 
 class SeatSelectionWidget extends StatefulWidget {
   final Hotels hotel;
@@ -75,24 +77,26 @@ class SeatSelectionWidgetState extends State<SeatSelectionWidget> {
 
     await _firestore
         .collection('Table')
-        
         .doc(widget.hotel.uid)
         .collection(widget.table.date)
         .doc('table_status')
         .set(updatedStatus, SetOptions(merge: true));
+  }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          '${getSelectedSeatsCount()} seats booked for \$${getTotalPrice().toStringAsFixed(2)}!',
-        ),
-        duration: const Duration(seconds: 3),
-      ),
-    );
+  List<int> getSelectedSeatNumbers() {
+    List<int> selectedSeatNumbers = [];
+    for (int i = 0; i < seats.length; i++) {
+      if (seats[i].isSelected) {
+        selectedSeatNumbers.add(i + 1); // Seat numbers are 1-based, so add 1
+      }
+    }
+    return selectedSeatNumbers;
   }
 
   @override
   Widget build(BuildContext context) {
+    final bookingAdd Booking = bookingAdd();
+    final User? currentUser = FirebaseAuth.instance.currentUser;
     int selectedSeatsCount = getSelectedSeatsCount();
     double totalPrice = getTotalPrice();
 
@@ -174,6 +178,12 @@ class SeatSelectionWidgetState extends State<SeatSelectionWidget> {
                         onPressed: () {
                           if (selectedSeatsCount > 0) {
                             updateTableStatus();
+                            Booking.addBooking(
+                                context,
+                                widget.hotel,
+                                widget.table,
+                                currentUser!.uid,
+                                getSelectedSeatNumbers());
                           }
                         },
                         style: ElevatedButton.styleFrom(
