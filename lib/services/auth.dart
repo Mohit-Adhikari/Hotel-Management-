@@ -48,12 +48,12 @@ class AuthService {
         'username': usernameText,
       });
 
-      clients.doc(uid).collection('Booking').doc('today').set({});
+      //clients.doc(uid).collection('Booking').doc().set({});
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Resgistered user successfully')),
       );
-      Navigator.pop(context);
+      //Navigator.pop(context);
       // Close the dialog on success
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context); // Close the dialog on error
@@ -62,7 +62,7 @@ class AuthService {
       );
     } finally {
       // Ensure the dialog is closed in case of any unexpected errors
-      Navigator.pop(context);
+      //Navigator.pop(context);
     }
   }
 

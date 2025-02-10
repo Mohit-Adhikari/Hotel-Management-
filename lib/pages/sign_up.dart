@@ -39,6 +39,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     // Call the registerUser method
     authService.registerUser(context);
+    Navigator.pushNamed(context, '/menupage');
 
     // Clear the text fields after registration attempt
     _usernameController.clear();
