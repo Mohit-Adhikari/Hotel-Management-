@@ -6,6 +6,7 @@ import 'package:hotel_management/models/rooms.dart';
 import 'package:hotel_management/models/services.dart';
 import 'package:hotel_management/pages/login_or_not.dart';
 import 'package:hotel_management/pages/table_booking_page.dart';
+import 'package:hotel_management/pages/view_menu.dart';
 import 'package:hotel_management/themes/colors.dart';
 import '../models/hotels.dart';
 
@@ -173,9 +174,9 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                        LoginOrNot(hotel: widget.hotel) // Pass the hotel object
-                  ),
+                      builder: (context) => LoginOrNot(
+                          hotel: widget.hotel) // Pass the hotel object
+                      ),
                 )
               },
               child: SizedBox(
@@ -275,7 +276,13 @@ class _HotelDetailsPageState extends State<HotelDetailsPage> {
                         color: Colors.grey,
                       ),
                       onTap: () {
-                        // Handle activity details
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                RestaurantMenuPage(hotel: widget.hotel),
+                          ),
+                        );
                       },
                     ),
                   ),

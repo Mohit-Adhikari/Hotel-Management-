@@ -10,6 +10,7 @@ import 'package:hotel_management/pages/home_page.dart';
 import 'package:hotel_management/pages/intro_pages.dart';
 import 'package:hotel_management/pages/login_page.dart';
 import 'package:hotel_management/pages/menu_page.dart';
+import 'package:hotel_management/pages/no_booking.dart';
 import 'package:hotel_management/pages/resturant_tile.dart';
 import 'package:hotel_management/pages/signIn_page.dart';
 import 'package:hotel_management/pages/sign_up.dart';
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
           '/signuppage': (context) => SignUpScreen(),
           '/bookingsuccess': (context) => UploadSuccessfulScreen(),
           '/ownersignup': (context) => OwnerSignup(),
+          '/noorder': (context) => NoOrder(),
         });
   }
 }

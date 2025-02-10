@@ -22,14 +22,14 @@ class bookingAdd {
         'seats': seat,
       });
       await tables.doc(user).collection('Booking').add({
+        'user': hotel.uid,
         'imageurl': hotel.imagePath,
         'hotel': hotel.name,
         'date': table.date,
         'seats': seat,
-      });     
-     
-       Navigator.pushNamed(context, '/bookingsuccess');
+      });
 
+      Navigator.pushNamed(context, '/bookingsuccess');
     } catch (e) {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
