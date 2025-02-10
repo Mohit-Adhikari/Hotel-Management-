@@ -115,14 +115,14 @@ class ResturantPage extends StatelessWidget {
                   title: "Change Photos",
                   subTitle: "Change the resturan't photos",
                   press: () {
-                      Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => UploadPage(
-                      user: currentUser!.uid, // Pass the dynamic value here
-                    ),
-                  ),
-                );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UploadPage(
+                          user: currentUser!.uid, // Pass the dynamic value here
+                        ),
+                      ),
+                    );
                   },
                 ),
                 ProfileMenuCard(
@@ -131,6 +131,14 @@ class ResturantPage extends StatelessWidget {
                   subTitle: "Add or remove your delivery locations",
                   press: () {
                     openDialogLocation();
+                  },
+                ),
+                ProfileMenuCard(
+                  svgSrc: shareIconSvg,
+                  title: "Add Menu Items",
+                  subTitle: "Add food, description and price",
+                  press: () {
+                    Navigator.pushNamed(context, '/addmenu');
                   },
                 ),
               ],
