@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -52,11 +51,119 @@ class _MenuPageState extends State<MenuPage> {
         price: 30),
   ];
 
+  Future _logout() async {
+    // Show confirmation dialog
+    bool? confirmLogout = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm Logout'),
+          content: Text('Are you sure you want to log out?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false); // Cancel logout
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true); // Confirm logout
+              },
+              child: Text('Logout'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmLogout == true) {
+      // Show loading indicator
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      );
+
+      try {
+        final User? user = FirebaseAuth.instance.currentUser;
+        if (user != null) {
+          await FirebaseAuth.instance.signOut();
+          Navigator.of(context).pop(); // Close the loading dialog
+
+          // Show success dialog
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Success'),
+                content: Text('Successfully Logged Out!'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Close the dialog
+                    },
+                    child: Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
+        } else {
+          Navigator.of(context).pop(); // Close the loading dialog
+
+          // Show error dialog for not logged in
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Error'),
+                content: Text('User not logged in!'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Close the dialog
+                    },
+                    child: Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      } catch (e) {
+        Navigator.of(context).pop(); // Close the loading dialog
+
+        // Show error dialog for exception
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Error'),
+              content: Text('An error occurred. Please try again: $e'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Close the dialog
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       backgroundColor: Colors.white, // Light Beige
       appBar: AppBar(
@@ -65,22 +172,7 @@ class _MenuPageState extends State<MenuPage> {
         toolbarHeight:
             MediaQuery.of(context).size.height * 0.05, // 7% of screen height
         leading: GestureDetector(
-            onTap: () async {
-              try {
-                final User? user = FirebaseAuth.instance.currentUser;
-                if (user != null) {
-                  await FirebaseAuth.instance.signOut();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Sucessfully Logged Out!')),
-                  );
-                }
-              } catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                      content: Text('An error occurred. Please try again:$e')),
-                );
-              }
-            },
+            onTap: _logout,
             child: Icon(Icons.logout,
                 color: const Color(0xFF333333))), // Charcoal Gray
         title: Text(
@@ -151,7 +243,7 @@ class _MenuPageState extends State<MenuPage> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  hintText: 'Search for resturants',
+                  hintText: 'Search for restaurants',
                 ),
               ),
               SizedBox(height: screenHeight * 0.03),
@@ -160,7 +252,7 @@ class _MenuPageState extends State<MenuPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Popular Resturants',
+                    'Popular Restaurants',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF333333), // Charcoal Gray
@@ -169,7 +261,7 @@ class _MenuPageState extends State<MenuPage> {
                   ),
                   GestureDetector(
                     child: Text(
-                      'Seem more->',
+                      'See more->',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: const Color(0xFF333333), // Charcoal Gray

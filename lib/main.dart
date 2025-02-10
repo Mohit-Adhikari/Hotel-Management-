@@ -16,10 +16,16 @@ import 'package:hotel_management/pages/sign_up.dart';
 import 'package:hotel_management/pages/table_booking_page.dart';
 import 'package:hotel_management/pages/table_page.dart';
 import 'package:hotel_management/pages/hiddendrawer.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await Supabase.initialize(
+    url: 'https://fwhponoldzlbxzkxpowv.supabase.co',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ3aHBvbm9sZHpsYnh6a3hwb3d2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzg2MDE0ODIsImV4cCI6MjA1NDE3NzQ4Mn0.SeKxK7vKKI7wmBr9d0R0Wy4yCR9AqhukwuPA4QEZN0o',
+  );
   runApp(const MyApp());
 }
 

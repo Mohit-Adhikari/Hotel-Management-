@@ -26,11 +26,10 @@ class bookingAdd {
         'hotel': hotel.name,
         'date': table.date,
         'seats': seat,
-      });
-      Navigator.pop(context);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Updated booking successfully!'),
-      ));
+      });     
+     
+       Navigator.pushNamed(context, '/bookingsuccess');
+
     } catch (e) {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

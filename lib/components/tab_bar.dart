@@ -19,7 +19,7 @@ class _SecondaryTabbarState extends State<SecondaryTabbar> {
   final List<Widget> _tabBodies = [
     const ChartPage(), // Widget for Home
      ResturantPage(), // Widget for Restaurant
-    const TableSetting(), // Widget for Table
+     TableSetting(), // Widget for Table
   ];
 
   @override

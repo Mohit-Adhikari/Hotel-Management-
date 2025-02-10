@@ -1,8 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hotel_management/services/crud.dart';
 
 class TableSetting extends StatelessWidget {
-  const TableSetting({super.key});
+  TableSetting({super.key});
+  final User? currentUser = FirebaseAuth.instance.currentUser;
+  final FirestoreService firestoreService = FirestoreService();
+  final TextEditingController tableController = TextEditingController();
+  final TextEditingController pricingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +24,7 @@ class TableSetting extends StatelessWidget {
                     MainAxisSize.min, // Makes the column take up minimal space
                 children: [
                   TextField(
+                    controller: tableController,
                     keyboardType: TextInputType.number,
                     autofocus: true,
                     decoration: InputDecoration(
@@ -29,6 +36,12 @@ class TableSetting extends StatelessWidget {
                           10), // Add some spacing between the TextField and the button
                   ElevatedButton(
                     onPressed: () {
+                      int tableNumber = int.parse(tableController.text);
+                      firestoreService.addTable(
+                        context,
+                        currentUser!.uid.toString(),
+                        tableNumber,
+                      );
                       Navigator.of(context).pop();
                     },
                     child: Text('Save'),
@@ -50,6 +63,7 @@ class TableSetting extends StatelessWidget {
                     MainAxisSize.min, // Makes the column take up minimal space
                 children: [
                   TextField(
+                    controller: pricingController,
                     keyboardType: TextInputType.number,
                     autofocus: true,
                     decoration: InputDecoration(
@@ -61,6 +75,12 @@ class TableSetting extends StatelessWidget {
                           10), // Add some spacing between the TextField and the button
                   ElevatedButton(
                     onPressed: () {
+                      int price = int.parse(pricingController.text);
+                      firestoreService.addPrice(
+                        context,
+                        currentUser!.uid.toString(),
+                        price,
+                      );
                       Navigator.of(context).pop();
                     },
                     child: Text('Save'),

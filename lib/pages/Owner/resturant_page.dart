@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hotel_management/pages/Owner/upload_page.dart';
 import 'package:hotel_management/services/crud.dart';
 
 class ResturantPage extends StatelessWidget {
@@ -113,7 +114,16 @@ class ResturantPage extends StatelessWidget {
                   svgSrc: photoFrameSvg,
                   title: "Change Photos",
                   subTitle: "Change the resturan't photos",
-                  press: () {},
+                  press: () {
+                      Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UploadPage(
+                      user: currentUser!.uid, // Pass the dynamic value here
+                    ),
+                  ),
+                );
+                  },
                 ),
                 ProfileMenuCard(
                   svgSrc: markerIconSvg,
