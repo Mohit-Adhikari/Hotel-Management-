@@ -39,7 +39,7 @@ class _ChefssigninState extends State<Chefssignin> {
 
     try {
       authService.loginUser(context);
-      Navigator.pushNamed(context, '/cheforderpage');
+      Navigator.pushNamed(context, '/chefsearch');
       // Navigate to home screen after successful login
     } catch (e) {
       // Handle any unexpected errors

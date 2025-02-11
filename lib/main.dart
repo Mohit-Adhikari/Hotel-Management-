@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hotel_management/pages/Admin/adminHome.dart';
 import 'package:hotel_management/pages/Chefs/chefSignup.dart';
 import 'package:hotel_management/pages/Chefs/orders.dart';
+import 'package:hotel_management/pages/Chefs/search_page.dart';
 import 'package:hotel_management/pages/Owner/add_menu.dart';
 import 'package:hotel_management/pages/Owner/owner_homepage.dart';
 import 'package:hotel_management/pages/Owner/owner_signup.dart';
@@ -42,7 +43,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: IntroPages(),
         routes: {
-          '/chefsignup':(context)=>Chefsignup(),
+          '/chefsearch': (context) => SearchPage(),
+          '/chefsignup': (context) => Chefsignup(),
           '/resturanttilepage': (context) => ResturantTile(),
           '/adminhomepage': (context) => AdminHome(),
           '/cheforderpage': (context) => ChefOrders(),
