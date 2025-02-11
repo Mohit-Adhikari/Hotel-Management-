@@ -1,15 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hotel_management/components/button.dart';
+import 'package:hotel_management/components/my_button.dart';
 import 'package:hotel_management/components/my_textfield.dart';
 import 'package:hotel_management/components/square_tile.dart';
+import 'package:hotel_management/services/chef_auth.dart';
 import 'package:hotel_management/themes/colors.dart';
 
-class Chefssignin extends StatelessWidget {
+class Chefssignin extends StatefulWidget {
   Chefssignin({super.key});
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
+
+  @override
+  State<Chefssignin> createState() => _ChefssigninState();
+}
+
+class _ChefssigninState extends State<Chefssignin> {
+  final _emailController = TextEditingController();
+
+  final _passwordController = TextEditingController();
+
+  // sign user in method
+  void _login() async {
+    String email = _emailController.text;
+    String password = _passwordController.text;
+
+    // Validate email and password
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill in all fields')),
+      );
+      return;
+    }
+
+    // Perform login
+    AuthService authService = AuthService(
+      emailText: email,
+      passwordText: password,
+    );
+
+    try {
+      authService.loginUser(context);
+      Navigator.pushNamed(context, '/cheforderpage');
+      // Navigate to home screen after successful login
+    } catch (e) {
+      // Handle any unexpected errors
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Login failed: ${e.toString()}')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +91,8 @@ class Chefssignin extends StatelessWidget {
 
                     // username textfield
                     MyTextField(
-                      controller: usernameController,
-                      hintText: 'Username',
+                      controller: _emailController,
+                      hintText: 'Email',
                       obscureText: false,
                     ),
 
@@ -62,7 +100,7 @@ class Chefssignin extends StatelessWidget {
 
                     // password textfield
                     MyTextField(
-                      controller: passwordController,
+                      controller: _passwordController,
                       hintText: 'Password',
                       obscureText: true,
                     ),
@@ -89,9 +127,8 @@ class Chefssignin extends StatelessWidget {
                     // sign in button
                     MyButton(
                       onTap: () => {
-                        Navigator.pushNamed(context, '/cheforderpage'),
+                        _login(),
                       },
-                      text: 'Sign In',
                     ),
 
                     SizedBox(height: screenHeight * 0.05),
@@ -155,7 +192,7 @@ class Chefssignin extends StatelessWidget {
                         SizedBox(width: screenWidth * 0.01),
                         GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(context, '/signuppage');
+                            Navigator.pushNamed(context, '/chefsignup');
                           },
                           child: Text(
                             'Register now',

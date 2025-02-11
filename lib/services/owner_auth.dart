@@ -56,15 +56,22 @@ class AuthService {
       tables.doc(uid).collection('today').doc('table_status').set({});
       tables.doc(uid).collection('tommorow').doc('table_status').set({});
       tables.doc(uid).collection('day_after').doc('table_status').set({});
+      ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Resgistered user successfully')),
+        SnackBar(
+          key: UniqueKey(),
+          content: const Text('Registered user successfully'),
+        ),
       );
       Navigator.pop(context);
       // Close the dialog on success
     } on FirebaseAuthException catch (e) {
-      Navigator.pop(context); // Close the dialog on error
+      Navigator.pop(context);
+      // Close the dialog on error
+      ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.message ?? 'An error occurred')),
+        SnackBar(
+            key: UniqueKey(), content: Text(e.message ?? 'An error occurred')),
       );
     } finally {
       // Ensure the dialog is closed in case of any unexpected errors
@@ -86,15 +93,18 @@ class AuthService {
         email: emailText,
         password: passwordText,
       );
-
+      ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Logged in successfully')),
+        SnackBar(key: UniqueKey(), content: Text('Logged in successfully')),
       );
       //Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
+      ScaffoldMessenger.of(context).clearSnackBars();
+
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.message ?? 'An error occurred')),
+        SnackBar(
+            key: UniqueKey(), content: Text(e.message ?? 'An error occurred')),
       );
     } finally {
       //Navigator.pop(context);
