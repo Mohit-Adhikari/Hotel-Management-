@@ -63,6 +63,7 @@ class AuthService {
         'uid': uid,
         'email': emailText,
         'username': usernameText,
+        'status': 'pending',
       });
 
       // Close the loading dialog

@@ -8,43 +8,58 @@ class AuthService {
   final String passwordText;
   final String? confirmPasswordText;
   final String? usernameText;
+
   final CollectionReference clients =
       FirebaseFirestore.instance.collection('Owner');
   final CollectionReference tables =
       FirebaseFirestore.instance.collection('Table');
 
-  AuthService(
-      {required this.emailText,
-      required this.passwordText,
-      this.confirmPasswordText,
-      this.usernameText // Added confirmPasswordText
-      });
+  AuthService({
+    required this.emailText,
+    required this.passwordText,
+    this.confirmPasswordText,
+    this.usernameText,
+  });
 
   void registerUser(BuildContext context) async {
-    // Added BuildContext context
+    // Show loading dialog
     showDialog(
       context: context,
+      barrierDismissible:
+          false, // Prevent dismissing the dialog by tapping outside
       builder: (context) => const AlertDialog(
-        content: CircularProgressIndicator(),
+        content: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(width: 16),
+            Text("Registering...."),
+          ],
+        ),
       ),
     );
 
-    if (passwordText != confirmPasswordText) {
-      Navigator.pop(context);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Passwords do not match')),
-      );
-      return; // Added return to stop further execution
-    }
-
     try {
+      // Check if passwords match
+      if (passwordText != confirmPasswordText) {
+        Navigator.pop(context); // Close the loading dialog
+        _showErrorDialog(context, 'Passwords do not match', () {
+          _navigateToLoginPage(context);
+        });
+        return; // Stop further execution
+      }
+
+      // Create user in Firebase Authentication
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailText,
         password: passwordText,
       );
+
       String? uid = userCredential.user?.uid;
-      clients.doc(uid).set({
+
+      // Add user data to Firestore
+      await clients.doc(uid).set({
         'uid': uid,
         'email': emailText,
         'username': usernameText,
@@ -53,30 +68,84 @@ class AuthService {
         'table': 0,
         'price': 0
       });
-      tables.doc(uid).collection('today').doc('table_status').set({});
-      tables.doc(uid).collection('tommorow').doc('table_status').set({});
-      tables.doc(uid).collection('day_after').doc('table_status').set({});
-      ScaffoldMessenger.of(context).clearSnackBars();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          key: UniqueKey(),
-          content: const Text('Registered user successfully'),
-        ),
-      );
+
+      // Initialize table status collections
+      await tables.doc(uid).collection('today').doc('table_status').set({});
+      await tables.doc(uid).collection('tommorow').doc('table_status').set({});
+      await tables.doc(uid).collection('day_after').doc('table_status').set({});
+
+      // Close the loading dialog
       Navigator.pop(context);
-      // Close the dialog on success
+
+      // Show success dialog and navigate to login page after OK is clicked
+      _showSuccessDialog(
+          context, 'Registered user successfully at ${DateTime.now()}', () {
+        _navigateToLoginPage(context);
+      });
     } on FirebaseAuthException catch (e) {
-      Navigator.pop(context);
-      // Close the dialog on error
-      ScaffoldMessenger.of(context).clearSnackBars();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            key: UniqueKey(), content: Text(e.message ?? 'An error occurred')),
-      );
-    } finally {
-      // Ensure the dialog is closed in case of any unexpected errors
-      Navigator.pop(context);
+      Navigator.pop(context); // Close the loading dialog
+
+      // Show error dialog with the Firebase error message and navigate to login page after OK is clicked
+      _showErrorDialog(context, e.message ?? 'An error occurred', () {
+        _navigateToLoginPage(context);
+      });
+    } catch (e) {
+      Navigator.pop(
+          context); // Ensure the loading dialog is closed for any unexpected errors
+
+      // Show error dialog for unexpected errors and navigate to login page after OK is clicked
+      _showErrorDialog(context, 'An unexpected error occurred: $e', () {
+        _navigateToLoginPage(context);
+      });
     }
+  }
+
+// Helper method to show success dialog
+  void _showSuccessDialog(
+      BuildContext context, String message, VoidCallback onOkPressed) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Success'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context); // Close the dialog
+              onOkPressed(); // Navigate to login page
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+// Helper method to show error dialog
+  void _showErrorDialog(
+      BuildContext context, String message, VoidCallback onOkPressed) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Error'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context); // Close the dialog
+              onOkPressed(); // Navigate to login page
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+// Method to navigate to the login page
+  void _navigateToLoginPage(BuildContext context) {
+    Navigator.pushReplacementNamed(context,
+        '/hiddendrawer'); // Replace the current route with the login page
   }
 
   void loginUser(BuildContext context) async {
@@ -93,15 +162,14 @@ class AuthService {
         email: emailText,
         password: passwordText,
       );
-      ScaffoldMessenger.of(context).clearSnackBars();
+
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(key: UniqueKey(), content: Text('Logged in successfully')),
+        const SnackBar(content: Text('Logged in successfully')),
       );
       //Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).clearSnackBars();
-
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             key: UniqueKey(), content: Text(e.message ?? 'An error occurred')),
@@ -110,4 +178,6 @@ class AuthService {
       //Navigator.pop(context);
     }
   }
+
+  // Helper method to show a status dialog
 }

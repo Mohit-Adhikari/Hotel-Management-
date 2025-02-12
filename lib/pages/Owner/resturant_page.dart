@@ -10,6 +10,7 @@ class ResturantPage extends StatelessWidget {
   final FirestoreService firestoreService = FirestoreService();
   final TextEditingController restaurantController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
+  
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +37,11 @@ class ResturantPage extends StatelessWidget {
                           10), // Add some spacing between the TextField and the button
                   ElevatedButton(
                     onPressed: () {
+                      
+                      String uid = currentUser!.uid;
+
                       firestoreService.addRestaurant(
-                          context,
-                          currentUser!.uid.toString(),
-                          restaurantController.text);
+                          context, uid, restaurantController.text);
                       restaurantController.clear();
                       Navigator.of(context).pop();
                     },
@@ -139,6 +141,14 @@ class ResturantPage extends StatelessWidget {
                   subTitle: "Add food, description and price",
                   press: () {
                     Navigator.pushNamed(context, '/addmenu');
+                  },
+                ),
+                ProfileMenuCard(
+                  svgSrc: shareIconSvg,
+                  title: "Approve Request",
+                  subTitle: "Accept Decline Chefs Request",
+                  press: () {
+                    Navigator.pushNamed(context, '/acceptdecline');
                   },
                 ),
               ],

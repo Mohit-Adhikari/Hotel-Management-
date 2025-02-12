@@ -7,6 +7,10 @@ class FirestoreService {
       FirebaseFirestore.instance.collection('Owner');
   final CollectionReference tables =
       FirebaseFirestore.instance.collection('Table');
+  final CollectionReference resturant_chef =
+      FirebaseFirestore.instance.collection('Chef');
+  final CollectionReference order_collection =
+      FirebaseFirestore.instance.collection('Order');
   Future<void> addRestaurant(
       BuildContext context, String owner, String resturant) async {
     // Show Circular Progress Indicator
@@ -205,6 +209,104 @@ class FirestoreService {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Error adding menu item: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  Future<void> addChefRequest(BuildContext context, String chef,
+      String chef_email, Map<String, dynamic> restaurant) async {
+    // Show loading dialog
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Prevent dismissing while loading
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+
+    try {
+      // Add the chef request to Firestore
+      await hotel.doc(restaurant['uid']).collection('chefs').doc(chef).set({
+        'chef': chef,
+        'status': 'pending',
+        'email': chef_email,
+      });
+      await resturant_chef.doc(chef).set({
+        'status': 'pending',
+      }, SetOptions(merge: true));
+
+      // Close the loading dialog
+      Navigator.pop(context);
+
+      // Show success dialog
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Success'),
+          content: const Text('Chef Request added successfully!'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Close the dialog
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    } catch (e) {
+      // Close the loading dialog
+      Navigator.pop(context);
+
+      // Show error dialog
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Error'),
+          content: Text('Error adding chef request: $e'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Close the dialog
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  Future<void> addOrder(
+      BuildContext context, String owner, Map<String, dynamic> order) async {
+    // Show Circular Progress Indicator
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Prevent dismissing while loading
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+
+    try {
+      await order_collection.doc(owner).collection('orders').add(order);
+
+      // Close the loading dialog
+      Navigator.pop(context);
+
+      // Show success SnackBar
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Ordered Items Suceesfully!'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (e) {
+      // Close the loading dialog
+      Navigator.pop(context);
+
+      // Show error SnackBar
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error updating order $e'),
           backgroundColor: Colors.red,
         ),
       );
