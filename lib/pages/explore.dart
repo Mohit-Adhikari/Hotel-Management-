@@ -11,7 +11,7 @@ class _ExploreMoreState extends State<ExploreMore> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text('Comming Soon'),
+      body: Center(child: Text('Comming Soon')),
     );
   }
 }

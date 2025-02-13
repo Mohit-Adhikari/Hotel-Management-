@@ -1,10 +1,12 @@
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hotel_management/components/button.dart';
 import 'package:hotel_management/components/hotel_tile.dart';
 import 'package:hotel_management/models/hotels.dart';
+import 'package:hotel_management/pages/customer_resturant_search.dart';
 import 'package:hotel_management/pages/hotel_details_page.dart';
 
 class MenuPage extends StatefulWidget {
@@ -15,6 +17,50 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
+  final TextEditingController _searchController = TextEditingController();
+  bool _isLoading = false; // To track loading state
+
+  void _searchHotels(BuildContext context, String hotelName) async {
+    if (hotelName.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please enter a hotel name')),
+      );
+      return;
+    }
+
+    setState(() {
+      _isLoading = true; // Start loading
+    });
+
+    try {
+      // Query Firestore for hotels matching the name
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('Owner')
+          .where('resturant', isEqualTo: hotelName)
+          .get();
+
+      List<Map<String, dynamic>> restaurants = querySnapshot.docs
+          .map((doc) => {'id': doc.id, ...doc.data() as Map<String, dynamic>})
+          .toList();
+
+      // Navigate to the results page
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CHotelResultsPage(restaurants: restaurants),
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error fetching data: $e')),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false; // Stop loading
+      });
+    }
+  }
+
   void navigateToHotelDetails(int index) {
     Navigator.push(
       context,
@@ -238,13 +284,27 @@ class _MenuPageState extends State<MenuPage> {
               ),
               SizedBox(height: screenHeight * 0.03),
               // Search Bar
-              TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
+              Column(
+                children: [
+                  TextField(
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                      labelText: 'Enter Hotel Name',
+                      border: OutlineInputBorder(),
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.search),
+                        onPressed: () {
+                          _searchHotels(context, _searchController.text.trim());
+                        },
+                      ),
+                    ),
                   ),
-                  hintText: 'Search for restaurants',
-                ),
+                  SizedBox(height: 20), // Add some spacing
+                  if (_isLoading) // Show CircularProgressIndicator when loading
+                    Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                ],
               ),
               SizedBox(height: screenHeight * 0.03),
               // Popular Stays Section
@@ -300,21 +360,21 @@ class _MenuPageState extends State<MenuPage> {
                 padding: EdgeInsets.all(screenWidth * 0.04),
                 child: Row(
                   children: [
-                    Image.asset('lib/images/london-bridge.png',
+                    Image.asset('lib/images/nepal.png',
                         height: screenHeight * 0.08),
                     SizedBox(width: screenWidth * 0.04),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'London Bridge',
+                          'Your Location',
                           style: GoogleFonts.dmSerifDisplay(
                             fontSize: screenWidth * 0.045,
                             color: const Color(0xFF333333), // Charcoal Gray
                           ),
                         ),
                         Text(
-                          'United Kingdom',
+                          'Nepal',
                           style: TextStyle(
                               color: const Color(0xFF777777)), // Soft Gray
                         ),

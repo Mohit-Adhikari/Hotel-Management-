@@ -6,7 +6,9 @@ class NoOrder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text('No orders found.'),
+      body: Center(
+          child:
+              Text('Cannot place order without booking table for today first')),
     );
   }
 }

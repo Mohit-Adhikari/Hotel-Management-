@@ -40,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
 
     try {
       authService.loginUser(context);
-      Navigator.pushNamed(context, '/menupage');
+      Navigator.pushNamed(context, '/homepage');
       // Navigate to home screen after successful login
     } catch (e) {
       // Handle any unexpected errors
